@@ -14,16 +14,8 @@ node {
             }
         }
 
-         stage('Manual Approval') {
-            input message: 'Lanjutkan ke tahap Deploy?', parameters: [choice(name: 'ACTION', choices: 'Proceed\nAbort', description: 'Pilih tindakan yang sesuai')]
-
-            script {
-                if (params.ACTION == 'Proceed') {
-                    echo 'Melanjutkan ke tahap Deploy...'
-                } else {
-                    error('Pipeline dihentikan oleh pengguna.')
-                }
-            }
+        stage('Manual Approval') {
+            input(id: 'manual-approval', message: 'Lanjutkan ke tahap Deploy?', parameters: [boolean(defaultValue: false, description: 'Klik "Proceed" untuk melanjutkan', name: 'Proceed')])
         }
 
         stage('Deploy') {
