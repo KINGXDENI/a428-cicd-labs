@@ -14,6 +14,18 @@ node {
             }
         }
 
+         stage('Manual Approval') {
+            input message: 'Lanjutkan ke tahap Deploy?', parameters: [choice(name: 'ACTION', choices: 'Proceed\nAbort', description: 'Pilih tindakan yang sesuai')]
+
+            script {
+                if (params.ACTION == 'Proceed') {
+                    echo 'Melanjutkan ke tahap Deploy...'
+                } else {
+                    error('Pipeline dihentikan oleh pengguna.')
+                }
+            }
+        }
+
         stage('Deploy') {
             docker.image(dockerImage).inside("-p 3000:3000") {
                 sh './jenkins/scripts/deliver.sh' 
