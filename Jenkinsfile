@@ -13,6 +13,14 @@ node {
                 sh './jenkins/scripts/test.sh'
             }
         }
+
+        stage('Deploy') {
+            docker.image(dockerImage).inside("-p 3000:3000") {
+                sh './jenkins/scripts/deliver.sh' 
+                input message: 'Sudah selesai menggunakan React App? (Klik "Proceed" untuk mengakhiri)' 
+                sh './jenkins/scripts/kill.sh' 
+            }
+        }
     } catch (Exception e) {
         currentBuild.result = 'FAILURE'
         throw e
