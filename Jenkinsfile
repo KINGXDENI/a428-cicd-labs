@@ -15,7 +15,7 @@ node {
         }
 
         stage('Manual Approval') {
-            input(id: 'manual-approval', message: 'Lanjutkan ke tahap Deploy?', parameters: [boolean(defaultValue: false, description: 'Klik "Proceed" untuk melanjutkan', name: 'Proceed')])
+            input message: 'Lanjutkan ke tahap Deploy? (Klik "Proceed" untuk melanjutkan eksekusi pipeline ke tahap Deploy)' 
         }
 
         stage('Deploy') {
